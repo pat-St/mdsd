@@ -1,5 +1,5 @@
-name := """zeta-concept-generator"""
-organization := "zeta"
+name := """Mdsd"""
+organization := "none"
 
 version := "1.0-SNAPSHOT"
 

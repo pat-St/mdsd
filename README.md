@@ -1,2 +1,3 @@
-# zeta-concept-generator
+# mdsd 
+template generator with scala and twirl
 
