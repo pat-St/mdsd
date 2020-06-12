@@ -24,7 +24,7 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest{
       |  "name": "Test",
       |  "width": 30,
       |  "height": 41,
-      |  "shape": [
+      |  "shapes": [
       |    {
       |        "rectangle": {
       |            "x": 3,
@@ -63,6 +63,5 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest{
     val home:Future[Result] = route(app, request).get
 
     assertEquals(status(home),OK)
-    assertEquals(contentAsString(home),testInput)
   }
 }

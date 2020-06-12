@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject._
-import model.Root
+import model._
 import play.api._
 import play.api.mvc._
 import play.api.libs.json._
@@ -15,17 +15,24 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents)(implicit ec: ExecutionContext) extends BaseController {
 
-  /**
-   * Create an Action to render an HTML page.
-   *
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
-  def index() : Action[JsValue] = Action.async(parse.json) {
-    implicit request => {
+  type Change = Conversion[ShapeType, Shape | Null]
+
+  given shape as  Change =
+    shape => (shape.rectangle,shape.square,shape.circle) match {
+    case (Some(r),_,_) => r
+    case (_,Some(s),_) => s
+    case (_,_,Some(c)) => c
+    case _ => null
+  }
+
+  def (shapes: Seq[ShapeType]).flattenOption(using shape: Change): Seq[Shape | Null] = shapes.map{shape}
+
+  def (r: Root).filter: List[Shape | Null] = r.shapes.flattenOption.toList
+
+  def index(): Action[JsValue] = Action.async(parse.json) {
+    implicit request: Request[JsValue] => {
       request.body.validate[Root] match {
-        case JsSuccess(userDetails, _) => Future.successful(Ok(Json.toJson(userDetails)))
+        case JsSuccess(shapes, _) => Future.successful(Ok(views.html.shapes(shapes,shapes.filter)))
         case _ => Future.successful(BadRequest(request.body))
       }
     }

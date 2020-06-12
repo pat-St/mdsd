@@ -1,0 +1,33 @@
+@(root: Root,shapes: List[Shape])
+@import model._
+
+@rectangle(r: model.Rectangle) = {
+    <rect fill="@r.color" height="@r.height" width="@r.width" x="@r.x" y="@r.y"></rect>
+}
+@circle(c: model.Circle) = {
+    <circle fill="@c.color" cx="@c.x" cy="@c.y"  r="@c.radius"></circle>
+}
+@square(s: model.Square) = {
+    <rect fill="@s.color" height="@s.width" width="@s.width" x="@s.x" y="@s.y"></rect>
+}
+
+@display(shape: Shape) = {
+    @if(shape.isInstanceOf[model.Rectangle]){
+        @rectangle(shape.asInstanceOf[model.Rectangle])
+    } else {
+        @if(shape.isInstanceOf[model.Square]){
+            @square(shape.asInstanceOf[model.Square])
+        } else {
+            @circle(shape.asInstanceOf[model.Circle])
+        }
+    }
+}
+
+@main("Auto generated shapes") {
+    <h1>@root.name</h1>
+    <svg width="@root.width" height="@root.height">
+        @for(shape <- shapes) {
+            @display(shape)
+        }
+    </svg>
+}

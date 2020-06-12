@@ -2,7 +2,7 @@ name := """Mdsd"""
 organization := "none"
 
 version := "1.0-SNAPSHOT"
-val dottyVersion = "0.24.0-RC1"
+val dottyVersion = "0.25.0-RC1"
 val playVersion = "2.8.1"
 lazy val root = project
   .in(file("."))
@@ -26,7 +26,7 @@ lazy val root = project
   .enablePlugins(SbtTwirl)
 scalacOptions ++= { if (isDotty.value) Seq("-language:Scala2Compat","-language:implicitConversions") else Nil }
 // Adds additional packages into Twirl
-//TwirlKeys.templateImports += "zetra.controllers._"
+TwirlKeys.templateImports += "model._"
 
 // Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "zetra.binders._"
+// play.sbt.routes.RoutesKeys.routesImport += "none.model._"
