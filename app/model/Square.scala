@@ -9,9 +9,9 @@ import play.api.libs.functional.syntax._
 import scala.collection.mutable.ListBuffer
 import javax.inject.{Inject, Singleton}
 
-case class Square(x: Int, y: Int, width: Int, color: String) extends Shape
+case class Square(x: Int, y: Int, width: Int, color: String) extends Shape(color)
 
-object Square {
+object Square: 
   val squareReads: Reads[Square] = (
       (JsPath \ "x").read[Int](min(1) keepAnd max(1000)) and
       (JsPath \ "y").read[Int](min(1) keepAnd max(1000)) and
@@ -19,13 +19,13 @@ object Square {
       (JsPath \ "color").read[String]
     )(Square.apply _)
 
-  val squareWrites: OWrites[Square] = (square: Square) => {
+  val squareWrites: OWrites[Square] = (square: Square) => 
     Json.obj(
       "x" -> square.x,
       "y" -> square.y,
       "width" -> square.width,
       "color" -> square.color
     )
-  }
+  
   given squareFormat as OFormat[Square] = OFormat[Square](squareReads,squareWrites)
-}
+

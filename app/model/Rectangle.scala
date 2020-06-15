@@ -9,9 +9,9 @@ import play.api.libs.functional.syntax._
 import scala.collection.mutable.ListBuffer
 import javax.inject.{Inject, Singleton}
 
-case class Rectangle( x: Int,  y: Int,  height: Int,  width: Int,  color: String) extends Shape
+case class Rectangle( x: Int,  y: Int,  height: Int,  width: Int,  color: String) extends Shape(color)
 
-object Rectangle {
+object Rectangle:
   val rectangleReads: Reads[Rectangle] = (
       (JsPath \ "x").read[Int](min(1) keepAnd max(1000)) and
       (JsPath \ "y").read[Int](min(1) keepAnd max(1000)) and
@@ -20,7 +20,7 @@ object Rectangle {
       (JsPath \ "color").read[String]
     )(Rectangle.apply _)
 
-  val rectangleWrites: OWrites[Rectangle] = (rectangle: Rectangle) => {
+  val rectangleWrites: OWrites[Rectangle] = (rectangle: Rectangle) => 
     Json.obj(
       "x" -> rectangle.x,
       "y" -> rectangle.y,
@@ -28,6 +28,5 @@ object Rectangle {
       "width" -> rectangle.width,
       "color" -> rectangle.color
     )
-  }
+  
   given rectangleFormat as OFormat[Rectangle] = OFormat[Rectangle](rectangleReads,rectangleWrites)
-}

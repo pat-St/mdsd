@@ -1,4 +1,4 @@
-@(root: Root,shapes: List[Shape])
+@(root: Root,shapes: Seq[Shape])
 @import model._
 
 @rectangle(r: model.Rectangle) = {
@@ -18,16 +18,18 @@
         @if(shape.isInstanceOf[model.Square]){
             @square(shape.asInstanceOf[model.Square])
         } else {
-            @circle(shape.asInstanceOf[model.Circle])
+           @circle(shape.asInstanceOf[model.Circle])
         }
     }
 }
 
 @main("Auto generated shapes") {
     <h1>@root.name</h1>
-    <svg width="@root.width" height="@root.height">
+    <div>
+    <svg width="@root.width" height="@root.height" style="background-color:@root.color;">
         @for(shape <- shapes) {
             @display(shape)
         }
     </svg>
+</div>
 }

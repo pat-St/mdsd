@@ -10,23 +10,24 @@ import play.api.libs.functional.syntax._
 import scala.collection.mutable.ListBuffer
 import javax.inject.{Inject, Singleton}
 
-case class Root(name: String,width: Int,height: Int,shapes : Seq[ShapeType]) extends Shape
+case class Root(name: String,width: Int,height: Int,shapes : Seq[ShapeType], color: String) extends Shape(color)
 
-object Root {
+object Root:
   val rootReads: Reads[Root] = (
       (JsPath \ "name").read[String] and
       (JsPath \ "width").read[Int](min(1) keepAnd max(1000)) and
       (JsPath \ "height").read[Int](min(1) keepAnd max(1000)) and
-      (JsPath \ "shapes").read[Seq[ShapeType]]
+      (JsPath \ "shapes").read[Seq[ShapeType]] and
+      (JsPath \ "color").read[String]
     ) (Root.apply _)
 
-  val rootWriters: OWrites[Root] = (root: Root) => {
+  val rootWriters: OWrites[Root] = (root: Root) => 
     Json.obj(
       "name" -> root.name,
       "width" -> root.width,
       "height" -> root.height,
-      "shapes" -> root.shapes
+      "shapes" -> root.shapes,
+      "color" -> root.color
     )
-  }
+  
   given rootFormat as OFormat[Root] = OFormat[Root](rootReads,rootWriters)
-}
