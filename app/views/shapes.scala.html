@@ -1,24 +1,24 @@
-@(root: Root,shapes: Seq[Shape])
+@(root: Root,shapes: List[Shape])
 @import model._
 
-@rectangle(r: model.Rectangle) = {
+@rectangle(r: Rectangle) = {
     <rect fill="@r.color" height="@r.height" width="@r.width" x="@r.x" y="@r.y"></rect>
 }
-@circle(c: model.Circle) = {
+@circle(c: Circle) = {
     <circle fill="@c.color" cx="@c.x" cy="@c.y"  r="@c.radius"></circle>
 }
-@square(s: model.Square) = {
+@square(s: Square) = {
     <rect fill="@s.color" height="@s.width" width="@s.width" x="@s.x" y="@s.y"></rect>
 }
 
 @display(shape: Shape) = {
-    @if(shape.isInstanceOf[model.Rectangle]){
-        @rectangle(shape.asInstanceOf[model.Rectangle])
+    @if(shape.isInstanceOf[Rectangle]){
+        @rectangle(shape.asInstanceOf[Rectangle])
     } else {
-        @if(shape.isInstanceOf[model.Square]){
-            @square(shape.asInstanceOf[model.Square])
+        @if(shape.isInstanceOf[Square]){
+            @square(shape.asInstanceOf[Square])
         } else {
-           @circle(shape.asInstanceOf[model.Circle])
+           @circle(shape.asInstanceOf[Circle])
         }
     }
 }
@@ -26,7 +26,7 @@
 @main("Auto generated shapes") {
     <h1>@root.name</h1>
     <div>
-    <svg width="@root.width" height="@root.height" style="background-color:@root.color;">
+    <svg width="@root.width" height="@root.height" style="background-color: @root.color;">
         @for(shape <- shapes) {
             @display(shape)
         }

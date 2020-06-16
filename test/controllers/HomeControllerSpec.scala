@@ -20,46 +20,20 @@ import scala.concurrent.Future
 class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest{
   val testInput =
     """
-      |{
-      |  "name": "Test",
-      |  "width": 30,
-      |  "height": 41,
-      |  "shapes": [
-      |    {
-      |        "rectangle": {
-      |            "x": 3,
-      |            "y": 5,
-      |            "height": 43,
-      |            "width": 3,
-      |            "color": "Green"
-      |        }
-      |    },
-      |     {
-      |        "circle": {
-      |            "x": 3,
-      |            "y": 5,
-      |            "radius": 3,
-      |            "color": "Red"
-      |        }
-      |    },
-      |    {
-      |        "square": {
-      |            "x": 3,
-      |            "y": 5,
-      |            "width": 3,
-      |            "color": "Blue"
-      |        }
-      |    }
-      |   
-      |  ]
-      |}
-      |""".stripMargin
+      |root stick figure 100 100 #aabb00
+      |rectangle 29 18 30 2 Green
+      |rectangle 10 25 2 40 Blue
+      |rectangle 20 46 2 20 Black
+      |rectangle 20 46 30 2 Red
+      |rectangle 40 46 30 2 Red
+      |circle 30 10 8 Red
+      |"""
 
 
   @Test def t1(): Unit = {
     given ec as scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
     val controller = new HomeController(stubControllerComponents())
-    val request = FakeRequest(POST, "/").withHeaders(HOST -> "localhost:9000").withBody(Json.toJson(testInput))
+    val request = FakeRequest(POST, "/").withHeaders(HOST -> "localhost:9000").withBody(testInput)
     val home:Future[Result] = route(app, request).get
 
     assertEquals(status(home),OK)
