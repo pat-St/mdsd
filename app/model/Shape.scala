@@ -1,5 +1,5 @@
 package model
 
-// trait with parameter
+//Trait with parameter
 trait Shape(color: String)
 

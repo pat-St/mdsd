@@ -15,13 +15,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents)(u
   //Implicit Conversions
   type ShapeTransform = Conversion[Shape,ShapeColorChange[Shape]]
   
-  // extension methods
+  //Extension methods
   def (color: String).cmatch: String = 
     Color.valueOf(color) match 
       case c: Color     => c.rgb
       case null         => color
 
-  //match types
+  //Match types
   type ShapeColorChange[X <: Shape] <: Shape = X match {
         case Root       => Root
         case Rectangle  => Rectangle
@@ -29,18 +29,18 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents)(u
         case Circle     => Circle
   }
 
-  // given instances
-  given validateShape as ShapeTransform:
+  //Given instances
+  given validateColor as ShapeTransform:
       def apply(s: Shape) = s match 
-            case s: Root      => s.copy(color=cmatch(s.color),shapes=s.shapes.validate)
+            case s: Root      => s.copy(color=cmatch(s.color), shapes=s.shapes.validate)
             case s: Rectangle => s.copy(color=cmatch(s.color))
             case s: Square    => s.copy(color=cmatch(s.color))
             case s: Circle    => s.copy(color=cmatch(s.color))
   
-  // using clauses
-  def (shapes: List[Shape]).validate(using vS: ShapeTransform) = shapes.map{s => vS.apply(s)}
+  //Using clauses
+  def (shapes: List[Shape]).validate(using vC: ShapeTransform) = shapes.map{s => vC.apply(s)}
 
-  // union type
+  //Union type
   def (s: String).parse: List[Shape] | ParserErrorModel = InputParser.inputParse(s)
 
   def index(): Action[String] = 

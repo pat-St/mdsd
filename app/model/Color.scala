@@ -2,7 +2,7 @@ package model
 
 import model.Shape
   
-// enum with parameters
+//Enum with parameters
 enum Color(val rgb: String):
   case Red    extends Color("#FF0000")
   case Green  extends Color("#00FF00")

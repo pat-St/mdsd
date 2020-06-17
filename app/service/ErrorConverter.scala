@@ -2,7 +2,7 @@ package service
 import model._
 import model.ErrorType
 
-// structural type
+//Structural types
 type ParserErrorModel = ErrorConverter.DisplayError {
       val header: ErrorType
       val body: String

@@ -1,6 +1,6 @@
 package model
 
-// enum
+//Enum
 enum ErrorType:
   case ParserError
   case InputError
