@@ -1,4 +1,4 @@
-@(root: Root,shapes: List[Shape])
+@(roots: List[Shape])
 @import model._
 
 @rectangle(r: Rectangle) = {
@@ -11,7 +11,16 @@
     <rect fill="@s.color" height="@s.width" width="@s.width" x="@s.x" y="@s.y"></rect>
 }
 
-@display(shape: Shape) = {
+@displayRoot(r: Root) = {
+    <h1>@r.name</h1>
+    <svg width="@r.width" height="@r.height" style="background-color: @r.color;">
+        @for(shape <- r.shapes) {
+            @displayShape(shape)
+        }
+    </svg>
+}
+
+@displayShape(shape: Shape) = {
     @if(shape.isInstanceOf[Rectangle]){
         @rectangle(shape.asInstanceOf[Rectangle])
     } else {
@@ -24,12 +33,11 @@
 }
 
 @main("Auto generated shapes") {
-    <h1>@root.name</h1>
-    <div>
-    <svg width="@root.width" height="@root.height" style="background-color: @root.color;">
-        @for(shape <- shapes) {
-            @display(shape)
+    @for(root <- roots) {
+        @if(root.isInstanceOf[Root]) {
+            @displayRoot(root.asInstanceOf[Root])
+        } else {
+            @displayShape(root)
         }
-    </svg>
-</div>
+    }
 }

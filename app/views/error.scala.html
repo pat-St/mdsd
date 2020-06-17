@@ -1,0 +1,8 @@
+@(error: service.ParserErrorModel)
+@import service.ParserErrorModel
+@import service.ErrorConverter.DisplayError
+
+@main("Auto generated shapes") {
+    <h1>@error.header</h1>
+    <p>@error.body</p>
+}

@@ -26,7 +26,15 @@ POST / HTTP/1.1
 Host: localhost:9000
 Content-Type: text/plain
 
-root stick figure 100 100 #aabb00
+root stick figure 100 100 Orange
+rectangle 29 18 30 2 Green
+rectangle 10 25 2 40 Blue
+rectangle 20 46 2 20 Black
+rectangle 20 46 30 2 Red
+rectangle 40 46 30 2 Red
+circle 30 10 8 Red
+
+root another stick figure 100 100 Yellow
 rectangle 29 18 30 2 Green
 rectangle 10 25 2 40 Blue
 rectangle 20 46 2 20 Black
@@ -40,24 +48,31 @@ circle 30 10 8 Red
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>Auto generated shapes</title>
-	<link rel="stylesheet" media="screen" href="/assets/stylesheets/main.css">
-	<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
-</head>
-<body>
-	<h1>stick figure </h1>
-	<div>
-		<svg width="100" height="100" style="background-color: #aabb00;">
-			<rect fill="Green" height="30" width="2" x="29" y="18"></rect>
-			<rect fill="Blue" height="2" width="40" x="10" y="25"></rect>
-			<rect fill="Black" height="2" width="20" x="20" y="46"></rect>
-			<rect fill="Red" height="30" width="2" x="20" y="46"></rect>
-			<rect fill="Red" height="30" width="2" x="40" y="46"></rect>
-			<circle fill="Red" cx="30" cy="10" r="8"></circle>
+	<head>
+		<title>Auto generated shapes</title>
+		<link rel="stylesheet" media="screen" href="/assets/stylesheets/main.css">
+		<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
+	</head>
+	<body>
+		<h1>stick figure </h1>
+		<svg width="100" height="100" style="background-color: #FFA500;">
+			<rect fill="#00FF00" height="30" width="2" x="29" y="18"></rect>
+			<rect fill="#0000FF" height="2" width="40" x="10" y="25"></rect>
+			<rect fill="#000000" height="2" width="20" x="20" y="46"></rect>
+			<rect fill="#FF0000" height="30" width="2" x="20" y="46"></rect>
+			<rect fill="#FF0000" height="30" width="2" x="40" y="46"></rect>
+			<circle fill="#FF0000" cx="30" cy="10" r="8"></circle>
 		</svg>
-	</div>
-	<script src="/assets/javascripts/main.js" type="text/javascript"></script>
-</body>
+		<h1>another stick figure </h1>
+		<svg width="100" height="100" style="background-color: #FFFF00;">
+			<rect fill="#00FF00" height="30" width="2" x="29" y="18"></rect>
+			<rect fill="#0000FF" height="2" width="40" x="10" y="25"></rect>
+			<rect fill="#000000" height="2" width="20" x="20" y="46"></rect>
+			<rect fill="#FF0000" height="30" width="2" x="20" y="46"></rect>
+			<rect fill="#FF0000" height="30" width="2" x="40" y="46"></rect>
+			<circle fill="#FF0000" cx="30" cy="10" r="8"></circle>
+		</svg>
+		<script src="/assets/javascripts/main.js" type="text/javascript"></script>
+	</body>
 </html>
 ```

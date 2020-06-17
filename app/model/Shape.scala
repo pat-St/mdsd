@@ -1,5 +1,5 @@
 package model
 
-trait Shape(color: String):
-  def getColor = color
+// trait with parameter
+trait Shape(color: String)
 
