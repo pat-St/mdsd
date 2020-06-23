@@ -2,12 +2,12 @@ package service
 
 import scala.util.parsing.combinator._
 import model._
-import service.ParserErrorModel
+import service.ErrorModel
 import service.ErrorConverter
 
 object InputParser extends Parser:
   //Union type as return
-  def inputParse(input: String): List[Shape] | ParserErrorModel = parse(roots, input) match 
+  def inputParse(input: String): List[Shape] | ErrorModel = parse(rootsParser, input) match 
     case Success(matched, _)  => matched
     case Failure(msg, _)      => ErrorConverter.convertToReturnError(msg)
     case Error(msg, _)        => ErrorConverter.converToFailureError(msg)
@@ -34,5 +34,5 @@ class Parser extends RegexParsers:
       case _ ~ n ~ i1 ~ i2 ~ c ~ s => Root(n, i1, i2, s, c) 
     }
 
-  def roots: Parser[List[Shape]] = rep1(root) ^^ { case r => r}
+  def rootsParser: Parser[List[Shape]] = rep1(root) ^^ { case r => r}
 
