@@ -2,19 +2,25 @@ package service
 
 import scala.util.parsing.combinator._
 import model._
-import service.ParserErrorModel
+import service.ErrorModel
 import service.ErrorConverter
 
 object InputParser extends Parser:
   //Union type as return
-  def inputParse(input: String): List[Shape] | ParserErrorModel = parse(roots, input) match 
+  def inputParse(input: String): List[Shape] | ErrorModel = parseAll(rootsParser, input) match 
     case Success(matched, _)  => matched
-    case Failure(msg, _)      => ErrorConverter.convertToReturnError(msg)
-    case Error(msg, _)        => ErrorConverter.converToFailureError(msg)
+    case Failure(msg, next)   => {
+      val pos = next.pos
+      ErrorConverter.converToFailureError(Some(pos.line),msg,pos.longString)
+    }
+    case Error(msg, next)     => {
+      val pos = next.pos
+      ErrorConverter.convertToReturnError(Some(pos.line),msg,pos.longString)
+    }
 
 class Parser extends RegexParsers:
   private def text:     Parser[String]  = """[^\d]+""".r  ^^ { _.toString }
-  private def color:    Parser[String]  = """[^\v\s]+""".r  ^^ { _.toString }
+  private def color:    Parser[String]  = """[^\v\s\d]+""".r  ^^ { _.toString }
   private def integer:  Parser[Int]     = """(0|[1-9]\d*)""".r ^^ { _.toInt }
 
   private def rectangle: Parser[Rectangle] =
@@ -34,5 +40,5 @@ class Parser extends RegexParsers:
       case _ ~ n ~ i1 ~ i2 ~ c ~ s => Root(n, i1, i2, s, c) 
     }
 
-  def roots: Parser[List[Shape]] = rep1(root) ^^ { case r => r}
+  def rootsParser: Parser[List[Shape]] = rep1(root) ^^ { case r => r}
 

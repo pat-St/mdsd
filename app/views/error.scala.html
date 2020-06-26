@@ -1,8 +1,15 @@
-@(error: service.ParserErrorModel)
-@import service.ParserErrorModel
+@(errors: List[service.ErrorModel])
+@import service.ErrorModel
 @import service.ErrorConverter.DisplayError
 
 @main("Auto generated shapes") {
-    <h1>@error.header</h1>
-    <p>@error.body</p>
+    @for(error <- errors) {
+        <h1>@error.header</h1>
+        @if(error.pos.isDefined) {
+            <p>At Position: @error.pos</p>
+        } else  {
+        }        
+        <p>Input: @error.extra</p>
+        <p>Message: @error.msg</p>       
+    }
 }

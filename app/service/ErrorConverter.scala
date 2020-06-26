@@ -3,16 +3,21 @@ import model._
 import model.ErrorType
 
 //Structural types
-type ParserErrorModel = ErrorConverter.DisplayError {
+type ErrorModel = ErrorConverter.DisplayError {
       val header: ErrorType
-      val body: String
+      val pos: Option[Int]
+      val msg: String
+      val extra: String
 } 
 
 object ErrorConverter: 
   case class DisplayError(elems: (String, Any)*) extends Selectable:
-    def selectDynamic(name: String): Any = elems.find(_._1 == name).get._2
+    private val fields = elems.toMap
+    def selectDynamic(name: String): Any = fields(name)
 
-  def convertToReturnError(s: String): ParserErrorModel = 
-    DisplayError("header" -> ErrorType.ParserError, "body" -> s).asInstanceOf[ParserErrorModel]
-  def converToFailureError(s: String): ParserErrorModel = 
-    DisplayError("header" -> ErrorType.InputError, "body" -> s).asInstanceOf[ParserErrorModel]
+  def convertToReturnError(pos: Option[Int], msg: String, extra: String): ErrorModel = 
+    DisplayError("header" -> ErrorType.ParserError, "pos" -> pos, "msg" -> msg, "extra" -> extra).asInstanceOf[ErrorModel]
+  def converToFailureError(pos: Option[Int], msg: String, extra: String): ErrorModel = 
+    DisplayError("header" -> ErrorType.InputError, "pos" -> pos, "msg" -> msg, "extra" -> extra).asInstanceOf[ErrorModel]
+  def convertToTransformError(pos: Option[Int], msg: String = "", extra: String = ""): ErrorModel =
+    DisplayError("header" -> ErrorType.TransformError, "pos" -> pos, "msg" -> msg, "extra" -> extra).asInstanceOf[ErrorModel]
