@@ -13,7 +13,6 @@ import service.ShapeTransformer
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents)(using ec: ExecutionContext) extends BaseController:
-
   type ShapeResult = ErrorModel | List[Shape]
 
   def (input: String).parse: ShapeResult = InputParser.inputParse(input)
