@@ -16,7 +16,7 @@ object InputParser extends Parser:
         ErrorConverter.convertToReturnError(Some(pos.line),msg,pos.longString)
 
 class Parser extends RegexParsers:
-  //basic type
+  //basic types
   private def text:     Parser[String]  = """[^\d]+""".r        ^^  ( _.toString)
   private def color:    Parser[String]  = """[^\v\s\d]+""".r    ^^  ( _.toString)
   private def integer:  Parser[Int]     = """(0|[1-9]\d*)""".r  ^^  ( _.toInt   )

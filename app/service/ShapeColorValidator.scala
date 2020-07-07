@@ -19,7 +19,7 @@ given validateColor(using sEU: ShapeErrorUtil) as ShapeColorValidator:
     case shape: Square    => shape.isValid
     case shape: Circle    => shape.isValid
 
-  def (shapes: List[Shape]).validate: List[Shape | ErrorModel] = shapes.map{s => validateColor(s)}
+  def (shapes: List[Shape]).validate: List[Shape | ErrorModel] = shapes.map(s => validateColor(s))
 
   def (color: String).cmatch: String | ErrorModel = 
     Color.values.filter(c => c.toString == color).headOption match 
@@ -27,7 +27,7 @@ given validateColor(using sEU: ShapeErrorUtil) as ShapeColorValidator:
       case Some(c)   => c.rgb
 
   def (r: Root).isValid: Root | ErrorModel = 
-    cmatch(r.color) match 
+    r.color.cmatch match 
       case s: String        => r.copy(color=s).isAllValid
       case err: ErrorModel  => err
 
@@ -37,16 +37,16 @@ given validateColor(using sEU: ShapeErrorUtil) as ShapeColorValidator:
       case Right(x) => x.head
 
   def (r: Rectangle).isValid: Rectangle | ErrorModel = 
-    cmatch(r.color) match 
+    r.color.cmatch match 
       case s: String        => r.copy(color=s)
       case err: ErrorModel  => err
 
   def (r: Square).isValid: Square | ErrorModel = 
-    cmatch(r.color) match 
+    r.color.cmatch match 
       case s: String        => r.copy(color=s)
       case err: ErrorModel  => err
 
   def (r: Circle).isValid: Circle | ErrorModel = 
-    cmatch(r.color) match 
+    r.color.cmatch match 
       case s: String        => r.copy(color=s)
       case err: ErrorModel  => err
