@@ -22,9 +22,9 @@ given validateColor(using sEU: ShapeErrorUtil) as ShapeColorValidator:
   def (shapes: List[Shape]).validate: List[Shape | ErrorModel] = shapes.map(s => validateColor(s))
 
   def (color: String).cmatch: String | ErrorModel = 
-    Color.values.filter(c => c.toString == color).headOption match 
-      case None      => ErrorConverter.convertToTransformError(pos=None,msg="Is not a valid color",extra=color)
+    Color.values.filter(_.toString == color).headOption match 
       case Some(c)   => c.rgb
+      case None      => ErrorConverter.convertToTransformError(pos=None,msg="Is not a valid color",extra=color)
 
   def (r: Root).isValid: Root | ErrorModel = 
     r.color.cmatch match 

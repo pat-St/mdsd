@@ -4,10 +4,10 @@ import model.ErrorType
 
 //Structural types
 type ErrorModel = ErrorConverter.DisplayError {
-      val header: ErrorType
-      val pos: Option[Int]
-      val msg: String
-      val extra: String
+  val header: ErrorType
+  val pos: Option[Int]
+  val msg: String
+  val extra: String
 } 
 
 object ErrorConverter: 
@@ -21,3 +21,5 @@ object ErrorConverter:
     DisplayError("header" -> ErrorType.InputError, "pos" -> pos, "msg" -> msg, "extra" -> extra).asInstanceOf[ErrorModel]
   def convertToTransformError(pos: Option[Int], msg: String = "", extra: String = ""): ErrorModel =
     DisplayError("header" -> ErrorType.TransformError, "pos" -> pos, "msg" -> msg, "extra" -> extra).asInstanceOf[ErrorModel]
+
+    //same as convertToReturnError 
